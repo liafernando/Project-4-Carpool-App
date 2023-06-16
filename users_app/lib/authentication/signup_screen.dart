@@ -12,6 +12,8 @@ import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget
 {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -26,29 +28,36 @@ class _SignUpScreenState extends State<SignUpScreen>
   TextEditingController passwordTextEditingController = TextEditingController();
 
 
-  validateForm()
-  {
-    if(nameTextEditingController.text.length < 3)
-    {
-      Fluttertoast.showToast(msg: "name must be atleast 3 Characters.");
-    }
-    else if(!emailTextEditingController.text.contains("@"))
-    {
-      Fluttertoast.showToast(msg: "Email address is not Valid.");
-    }
-    else if(phoneTextEditingController.text.isEmpty)
-    {
-      Fluttertoast.showToast(msg: "Phone Number is required.");
-    }
-    else if(passwordTextEditingController.text.length < 6)
-    {
-      Fluttertoast.showToast(msg: "Password must be atleast 6 Characters.");
-    }
-    else
-    {
+  validateForm() {
+    if (isNameInvalid()) {
+      Fluttertoast.showToast(msg: "Name must be at least 3 characters.");
+    } else if (isEmailInvalid()) {
+      Fluttertoast.showToast(msg: "Email address is not valid.");
+    } else if (isPhoneInvalid()) {
+      Fluttertoast.showToast(msg: "Phone number is required.");
+    } else if (isPasswordInvalid()) {
+      Fluttertoast.showToast(msg: "Password must be at least 6 characters.");
+    } else {
       saveUserInfoNow();
     }
   }
+
+  bool isNameInvalid() {
+    return nameTextEditingController.text.length < 3;
+  }
+
+  bool isEmailInvalid() {
+    return !emailTextEditingController.text.contains("@");
+  }
+
+  bool isPhoneInvalid() {
+    return phoneTextEditingController.text.isEmpty;
+  }
+
+  bool isPasswordInvalid() {
+    return passwordTextEditingController.text.length < 6;
+  }
+
 
   saveUserInfoNow() async
   {
@@ -67,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         password: passwordTextEditingController.text.trim(),
       ).catchError((msg){
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: "Error: " + msg.toString());
+        Fluttertoast.showToast(msg: "Error: $msg");
       })
     ).user;
 
@@ -86,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen>
 
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Account has been Created.");
-      Navigator.push(context, MaterialPageRoute(builder: (c)=> MySplashScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (c)=> const MySplashScreen()));
     }
     else
     {
@@ -115,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen>
               const SizedBox(height: 10,),
 
               const Text(
-                "Register as a Driver",
+                "Register as a User",
                 style: TextStyle(
                   fontSize: 26,
                   color: Colors.white,
@@ -235,7 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                   validateForm();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightGreenAccent,
+                  backgroundColor: Colors.lightGreenAccent,
                 ),
                 child: const Text(
                   "Create Account",
@@ -253,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                 ),
                 onPressed: ()
                 {
-                  Navigator.push(context, MaterialPageRoute(builder: (c)=> LoginScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const LoginScreen()));
                 },
               ),
 
