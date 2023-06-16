@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "629383457888",
+    "firebase_url": "https://nhlcarpool-default-rtdb.firebaseio.com",
+    "project_id": "nhlcarpool",
+    "storage_bucket": "nhlcarpool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629383457888:android:dd9ee5e5ea0411dea06705",
+        "android_client_info": {
+          "package_name": "com.carpool.commutecontributor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629383457888-or3o5h5k0bhmqfu5tesr6msr3ujlimhi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw0dQ3myz0xWXDSotzSZliu1lDq6y2-zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629383457888-or3o5h5k0bhmqfu5tesr6msr3ujlimhi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629383457888:android:2f6faefacb0e2ecfa06705",
+        "android_client_info": {
+          "package_name": "com.kaiser.usersapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629383457888-or3o5h5k0bhmqfu5tesr6msr3ujlimhi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw0dQ3myz0xWXDSotzSZliu1lDq6y2-zQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629383457888-or3o5h5k0bhmqfu5tesr6msr3ujlimhi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
