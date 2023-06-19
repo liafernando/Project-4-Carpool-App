@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:users_app/global/global.dart';
-import 'package:users_app/helping/helping_methods.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,6 +23,22 @@ class _MainScreenState extends State<MainScreen> {
   );
 
   GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
+  double searchLocationContainerHeight = 220.0;
+
+  Position? userCurrentPosition;
+  var geoLocator = Geolocator();
+
+  locateUserPostion() async
+  {
+    Position cPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    userCurrentPosition = cPosition;
+
+    LatLng LatLngPostition = LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+
+    CameraPosition cameraPosition = CameraPosition(target: LatLngPostition, zoom: 13);
+
+    
+  }
 
   @override
   void initState() {
@@ -34,9 +50,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: sKey,
-      drawer: MyDrawer(
-        name: userModelCurrentInfo!.name,
-        email: userModelCurrentInfo!.email,
+      drawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.blue,
+        ),
+        child: MyDrawer(
+          name: userModelCurrentInfo!.name,
+          email: userModelCurrentInfo!.email,
+        ),
       ),
       body: Stack(
         children: [
@@ -63,6 +84,121 @@ class _MainScreenState extends State<MainScreen> {
               child: const CircleAvatar(
                 child: Icon(
                   Icons.menu,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: AnimatedSize(
+              curve: Curves.bounceIn,
+              duration: const Duration(milliseconds: 130),
+              child: Container(
+                height: searchLocationContainerHeight,
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                  child: Column(
+                    children: [
+                      //from
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.add_location_alt_outlined,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "From",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              Text(
+                                "Current position",
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 16),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+
+                      //to
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.add_location_alt_outlined,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "To",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
+                              ),
+                              Text(
+                                "user droppff postion",
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 16),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        child: const Text(
+                          "Request a Ride",
+                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
