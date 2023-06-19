@@ -7,64 +7,82 @@ import 'package:users_app/global/global.dart';
 import 'package:users_app/splashScreen/splash_screen.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
 
-class LoginScreen extends StatefulWidget {
+
+class LoginScreen extends StatefulWidget
+{
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+
+
+
+class _LoginScreenState extends State<LoginScreen>
+{
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
-  validateForm() {
-    if (!emailTextEditingController.text.contains("@")) {
+
+  validateForm()
+  {
+    if(!emailTextEditingController.text.contains("@"))
+    {
       Fluttertoast.showToast(msg: "Email address is not Valid.");
-    } else if (passwordTextEditingController.text.isEmpty) {
+    }
+    else if(passwordTextEditingController.text.isEmpty)
+    {
       Fluttertoast.showToast(msg: "Password is required.");
-    } else {
+    }
+    else
+    {
       loginUserNow();
     }
   }
 
-  loginUserNow() async {
+  loginUserNow() async
+  {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext c) {
-          return ProgressDialog(
-            message: "Processing, Please wait...",
-          );
-        });
+        builder: (BuildContext c)
+        {
+          return ProgressDialog(message: "Processing, Please wait...",);
+        }
+    );
 
-    final User? firebaseUser = (await fAuth
-            .signInWithEmailAndPassword(
-      email: emailTextEditingController.text.trim(),
-      password: passwordTextEditingController.text.trim(),
-    )
-            .catchError((msg) {
-      Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Error: " + msg.toString());
-    }))
-        .user;
+    final User? firebaseUser = (
+        await fAuth.signInWithEmailAndPassword(
+          email: emailTextEditingController.text.trim(),
+          password: passwordTextEditingController.text.trim(),
+        ).catchError((msg){
+          Navigator.pop(context);
+          Fluttertoast.showToast(msg: "Error: " + msg.toString());
+        })
+    ).user;
 
-    if (firebaseUser != null) {
-      DatabaseReference driversRef =
-          FirebaseDatabase.instance.ref().child("users");
-      driversRef.child(firebaseUser.uid).once().then((driverKey) {
+    if(firebaseUser != null)
+    {
+      DatabaseReference driversRef = FirebaseDatabase.instance.ref().child("users");
+      driversRef.child(firebaseUser.uid).once().then((driverKey)
+      {
         final snap = driverKey.snapshot;
-        if (snap.value != null) {
+        if(snap.value != null)
+        {
           currentFirebaseUser = firebaseUser;
           Fluttertoast.showToast(msg: "Login Successful.");
-          Navigator.push(context,
-              MaterialPageRoute(builder: (c) => const MySplashScreen()));
-        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (c)=> const MySplashScreen()));
+        }
+        else
+        {
           Fluttertoast.showToast(msg: "No record exist with this email.");
           fAuth.signOut();
-          Navigator.push(context,
-              MaterialPageRoute(builder: (c) => const MySplashScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (c)=> const MySplashScreen()));
         }
       });
-    } else {
+    }
+    else
+    {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: "Error Occurred during Login.");
     }
@@ -73,82 +91,89 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.blue,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const SizedBox(
-                height: 30,
-              ),
+
+              const SizedBox(height: 30,),
+
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Image.asset("images/logo.png"),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+
+              const SizedBox(height: 10,),
+
               const Text(
                 "Login as a User",
                 style: TextStyle(
                   fontSize: 26,
-                  color: Colors.grey,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               TextField(
                 controller: emailTextEditingController,
                 keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(color: Colors.grey),
+                style: const TextStyle(
+                    color: Colors.white
+                ),
                 decoration: const InputDecoration(
                   labelText: "Email",
                   hintText: "Email",
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                   hintStyle: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontSize: 10,
                   ),
                   labelStyle: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontSize: 14,
                   ),
                 ),
               ),
+
               TextField(
                 controller: passwordTextEditingController,
                 keyboardType: TextInputType.text,
                 obscureText: true,
-                style: const TextStyle(color: Colors.grey),
+                style: const TextStyle(
+                    color: Colors.white
+                ),
                 decoration: const InputDecoration(
                   labelText: "Password",
-                  hintText: "Password",
+                  hintText: "password",
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(color: Colors.white),
                   ),
                   hintStyle: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontSize: 10,
                   ),
                   labelStyle: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white,
                     fontSize: 14,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+
+              const SizedBox(height: 20,),
+
               ElevatedButton(
-                onPressed: () {
+                onPressed: ()
+                {
                   validateForm();
                 },
                 style: ElevatedButton.styleFrom(
@@ -162,16 +187,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+
               TextButton(
                 child: const Text(
                   "Do not have an Account? SignUp Here",
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (c) => SignUpScreen()));
+                onPressed: ()
+                {
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> SignUpScreen()));
                 },
               ),
+
             ],
           ),
         ),
