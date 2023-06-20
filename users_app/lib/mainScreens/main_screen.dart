@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
 import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
+import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 
 
@@ -226,6 +228,10 @@ class _MainScreenState extends State<MainScreen>
     CameraPosition cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
 
     newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String humanReadableAddress = await AssistantMethods.searchAddressForGeograhicCordinates(userCurrentPosition!,context);
+
+    print ("this is your address = " + humanReadableAddress);
   }
 
   @override
@@ -235,7 +241,7 @@ class _MainScreenState extends State<MainScreen>
 
     checkIfLocationPermissionAllowed();
   }
-  
+
   @override
   Widget build(BuildContext context)
   {
@@ -309,7 +315,7 @@ class _MainScreenState extends State<MainScreen>
               child: Container(
                 height: searchLocationContainerHeight,
                 decoration: const BoxDecoration(
-                  color: Colors.black87,
+                  color: Colors.black54,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20),
@@ -332,7 +338,9 @@ class _MainScreenState extends State<MainScreen>
                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                               Text(
-                                "your current location",
+                                Provider.of<AppInfo>(context).userPickUpLocation != null
+                                ? Provider.of<AppInfo>(context).userPickUpLocation!.locationName! // checks the location if entered and if not gets the current location.
+                                : "your current location",
                                 style: const TextStyle(color: Colors.grey, fontSize: 14),
                               ),
                             ],
