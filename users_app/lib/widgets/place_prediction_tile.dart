@@ -12,7 +12,7 @@ class PlacePredictionTileDesign extends StatelessWidget
 {
   final PredictedPlaces? predictedPlaces;
 
-  PlacePredictionTileDesign({this.predictedPlaces});
+  const PlacePredictionTileDesign({super.key, this.predictedPlaces});
 
 
   getPlaceDirectionDetails(String? placeId, context) async
@@ -58,7 +58,7 @@ class PlacePredictionTileDesign extends StatelessWidget
         getPlaceDirectionDetails(predictedPlaces!.place_id, context);
       },
       style: ElevatedButton.styleFrom(
-        primary: Colors.black12,
+        backgroundColor: Colors.black12,
       ),
       child: Padding(
         padding: const EdgeInsets.all(4.0),

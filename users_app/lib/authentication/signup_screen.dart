@@ -10,6 +10,8 @@ import 'package:users_app/widgets/progress_dialog.dart';
 
 class SignUpScreen extends StatefulWidget
 {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -65,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen>
         password: passwordTextEditingController.text.trim(),
       ).catchError((msg){
         Navigator.pop(context);
-        Fluttertoast.showToast(msg: "Error: " + msg.toString());
+        Fluttertoast.showToast(msg: "Error: $msg");
       })
     ).user;
 
@@ -84,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen>
 
       currentFirebaseUser = firebaseUser;
       Fluttertoast.showToast(msg: "Account has been Created.");
-      Navigator.push(context, MaterialPageRoute(builder: (c)=> MySplashScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (c)=> const MySplashScreen()));
     }
     else
     {
@@ -233,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                   validateForm();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.lightGreenAccent,
+                  backgroundColor: Colors.lightGreenAccent,
                 ),
                 child: const Text(
                   "Create Account",
@@ -251,7 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen>
                 ),
                 onPressed: ()
                 {
-                  Navigator.push(context, MaterialPageRoute(builder: (c)=> LoginScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const LoginScreen()));
                 },
               ),
 

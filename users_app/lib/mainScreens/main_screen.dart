@@ -1,29 +1,37 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:fluttertoast/fluttertoast.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+>>>>>>> Stashed changes
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/assistants/assistant_methods.dart';
-import 'package:users_app/authentication/login_screen.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/infoHandler/app_info.dart';
 import 'package:users_app/mainScreens/search_places_screen.dart';
 import 'package:users_app/widgets/my_drawer.dart';
+<<<<<<< Updated upstream
 
 
 class MainScreen extends StatefulWidget
 {
+=======
+import 'package:users_app/widgets/progress_dialog.dart';
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+>>>>>>> Stashed changes
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-
-
-
-class _MainScreenState extends State<MainScreen>
-{
+class _MainScreenState extends State<MainScreen> {
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController? newGoogleMapController;
 
@@ -41,9 +49,18 @@ class _MainScreenState extends State<MainScreen>
   LocationPermission? _locationPermission;
   double bottomPaddingOfMap = 0;
 
+<<<<<<< Updated upstream
+=======
+  List<LatLng> pLineCoOrdinatesList = [];
+  Set<Polyline> polyLineSet = {};
 
-  blackThemeGoogleMap()
-  {
+  Set<Marker> markersSet = {};
+  Set<Circle> circlesSet = {};
+
+  bool openNavigationDrawer = true;
+>>>>>>> Stashed changes
+
+  blackThemeGoogleMap() {
     newGoogleMapController!.setMapStyle('''
                     [
                       {
@@ -209,46 +226,53 @@ class _MainScreenState extends State<MainScreen>
                 ''');
   }
 
-  checkIfLocationPermissionAllowed() async
-  {
+  checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
 
-    if(_locationPermission == LocationPermission.denied)
-    {
+    if (_locationPermission == LocationPermission.denied) {
       _locationPermission = await Geolocator.requestPermission();
     }
   }
 
-  locateUserPosition() async
-  {
-    Position cPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  locateUserPosition() async {
+    Position cPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     userCurrentPosition = cPosition;
 
-    LatLng latLngPosition = LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+    LatLng latLngPosition =
+        LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
 
-    CameraPosition cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 14);
 
-    newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
+<<<<<<< Updated upstream
     String humanReadableAddress = await AssistantMethods.searchAddressForGeograhicCordinates(userCurrentPosition!,context);
 
     print ("this is your address = " + humanReadableAddress);
+=======
+    String humanReadableAddress =
+        await AssistantMethods.searchAddressForGeographicCoOrdinates(
+            userCurrentPosition!, context);
+
+    print("this is your address = $humanReadableAddress");
+>>>>>>> Stashed changes
   }
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
 
     checkIfLocationPermissionAllowed();
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       key: sKey,
-      drawer: Container(
+      drawer: SizedBox(
         width: 265,
         child: Theme(
           data: Theme.of(context).copyWith(
@@ -262,7 +286,6 @@ class _MainScreenState extends State<MainScreen>
       ),
       body: Stack(
         children: [
-
           GoogleMap(
             padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
             mapType: MapType.normal,
@@ -270,8 +293,15 @@ class _MainScreenState extends State<MainScreen>
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             initialCameraPosition: _kGooglePlex,
+<<<<<<< Updated upstream
             onMapCreated: (GoogleMapController controller)
             {
+=======
+            polylines: polyLineSet,
+            markers: markersSet,
+            circles: circlesSet,
+            onMapCreated: (GoogleMapController controller) {
+>>>>>>> Stashed changes
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
 
@@ -291,14 +321,18 @@ class _MainScreenState extends State<MainScreen>
             top: 30,
             left: 14,
             child: GestureDetector(
-              onTap: ()
-              {
-                sKey.currentState!.openDrawer();
+              onTap: () {
+                if (openNavigationDrawer) {
+                  sKey.currentState!.openDrawer();
+                } else {
+                  //restart-refresh-minimize app progmatically
+                  SystemNavigator.pop();
+                }
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.menu,
+                  openNavigationDrawer ? Icons.menu : Icons.close,
                   color: Colors.black54,
                 ),
               ),
@@ -323,26 +357,38 @@ class _MainScreenState extends State<MainScreen>
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
                   child: Column(
                     children: [
                       //from
                       Row(
                         children: [
-                          const Icon(Icons.add_location_alt_outlined, color: Colors.grey,),
-                          const SizedBox(width: 12.0,),
+                          const Icon(
+                            Icons.add_location_alt_outlined,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 12.0,
+                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
                                 "From",
-                                style: TextStyle(color: Colors.grey, fontSize: 12),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                               Text(
-                                Provider.of<AppInfo>(context).userPickUpLocation != null
-                                ? Provider.of<AppInfo>(context).userPickUpLocation!.locationName! // checks the location if entered and if not gets the current location.
-                                : "your current location",
-                                style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                Provider.of<AppInfo>(context)
+                                            .userPickUpLocation !=
+                                        null
+                                    ? Provider.of<AppInfo>(context)
+                                        .userPickUpLocation!
+                                        .locationName! // checks the location if entered and if not gets the current location.
+                                    : "your current location",
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 14),
                               ),
                             ],
                           ),
@@ -361,34 +407,54 @@ class _MainScreenState extends State<MainScreen>
 
                       //to
                       GestureDetector(
+<<<<<<< Updated upstream
                         onTap: ()
                         {
                           //directs to search places screen
                           var responseFromSearchScreen = Navigator.push(context, MaterialPageRoute(builder: (c)=> SearchPlacesScreen()));
+=======
+                        onTap: () async {
+                          //directs to search places screen
+                          var responseFromSearchScreen = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (c) => const SearchPlacesScreen()));
+>>>>>>> Stashed changes
 
-                          if(responseFromSearchScreen == "obtainedDropoff")
-                          {
+                          if (responseFromSearchScreen == "obtainedDropoff") {
+                            setState(() {
+                              openNavigationDrawer = false;
+                            });
                             //draw routes - draw polyline
                           }
-
-
                         },
                         child: Row(
                           children: [
-                            const Icon(Icons.add_location_alt_outlined, color: Colors.grey,),
-                            const SizedBox(width: 12.0,),
+                            const Icon(
+                              Icons.add_location_alt_outlined,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 12.0,
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
                                   "To",
-                                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 12),
                                 ),
                                 Text(
-                                  Provider.of<AppInfo>(context).userDropOffLocation != null
-                                      ? Provider.of<AppInfo>(context).userDropOffLocation!.locationName!
+                                  Provider.of<AppInfo>(context)
+                                              .userDropOffLocation !=
+                                          null
+                                      ? Provider.of<AppInfo>(context)
+                                          .userDropOffLocation!
+                                          .locationName!
                                       : "Where to go?",
-                                  style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -407,28 +473,150 @@ class _MainScreenState extends State<MainScreen>
                       const SizedBox(height: 16.0),
 
                       ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            textStyle: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         child: const Text(
                           "Request a Ride",
                         ),
-                        onPressed: ()
-                        {
-
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                        ),
                       ),
-
                     ],
                   ),
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
   }
+<<<<<<< Updated upstream
+=======
+
+  Future<void> drawPolyLineFromOriginToDestination() async {
+    var originPosition =
+        Provider.of<AppInfo>(context, listen: false).userPickUpLocation;
+    var destinationPosition =
+        Provider.of<AppInfo>(context, listen: false).userDropOffLocation;
+
+    var originLatLng = LatLng(
+        originPosition!.locationLatitude!, originPosition.locationLongitude!);
+    var destinationLatLng = LatLng(destinationPosition!.locationLatitude!,
+        destinationPosition.locationLongitude!);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => ProgressDialog(
+        message: "Please wait...",
+      ),
+    );
+
+    var directionDetailsInfo =
+        await AssistantMethods.obtainOriginToDestinationDirectionDetails(
+            originLatLng, destinationLatLng);
+
+    Navigator.pop(context);
+
+    print("These are points = ");
+    print(directionDetailsInfo!.e_points);
+
+    PolylinePoints pPoints = PolylinePoints();
+    List<PointLatLng> decodedPolyLinePointsResultList =
+        pPoints.decodePolyline(directionDetailsInfo.e_points!);
+
+    pLineCoOrdinatesList.clear();
+
+    if (decodedPolyLinePointsResultList.isNotEmpty) {
+      for (var pointLatLng in decodedPolyLinePointsResultList) {
+        pLineCoOrdinatesList
+            .add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      }
+    }
+
+    polyLineSet.clear();
+
+    setState(() {
+      Polyline polyline = Polyline(
+        color: Colors.lightBlueAccent,
+        polylineId: const PolylineId("PolylineID"),
+        jointType: JointType.round,
+        points: pLineCoOrdinatesList,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
+      );
+
+      polyLineSet.add(polyline);
+    });
+
+    LatLngBounds boundsLatLng;
+    if (originLatLng.latitude > destinationLatLng.latitude &&
+        originLatLng.longitude > destinationLatLng.longitude) {
+      boundsLatLng =
+          LatLngBounds(southwest: destinationLatLng, northeast: originLatLng);
+    } else if (originLatLng.longitude > destinationLatLng.longitude) {
+      boundsLatLng = LatLngBounds(
+        southwest: LatLng(originLatLng.latitude, destinationLatLng.longitude),
+        northeast: LatLng(destinationLatLng.latitude, originLatLng.longitude),
+      );
+    } else if (originLatLng.latitude > destinationLatLng.latitude) {
+      boundsLatLng = LatLngBounds(
+        southwest: LatLng(destinationLatLng.latitude, originLatLng.longitude),
+        northeast: LatLng(originLatLng.latitude, destinationLatLng.longitude),
+      );
+    } else {
+      boundsLatLng =
+          LatLngBounds(southwest: originLatLng, northeast: destinationLatLng);
+    }
+
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newLatLngBounds(boundsLatLng, 65));
+
+    Marker originMarker = Marker(
+      markerId: const MarkerId("originID"),
+      infoWindow:
+          InfoWindow(title: originPosition.locationName, snippet: "Origin"),
+      position: originLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    );
+
+    Marker destinationMarker = Marker(
+      markerId: const MarkerId("destinationID"),
+      infoWindow: InfoWindow(
+          title: destinationPosition.locationName, snippet: "Destination"),
+      position: destinationLatLng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+    );
+
+    setState(() {
+      markersSet.add(originMarker);
+      markersSet.add(destinationMarker);
+    });
+
+    Circle originCircle = Circle(
+      circleId: const CircleId("originID"),
+      fillColor: Colors.green,
+      radius: 12,
+      strokeWidth: 3,
+      strokeColor: Colors.white,
+      center: originLatLng,
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: const CircleId("destinationID"),
+      fillColor: Colors.red,
+      radius: 12,
+      strokeWidth: 3,
+      strokeColor: Colors.white,
+      center: destinationLatLng,
+    );
+
+    setState(() {
+      circlesSet.add(originCircle);
+      circlesSet.add(destinationCircle);
+    });
+  }
+>>>>>>> Stashed changes
 }

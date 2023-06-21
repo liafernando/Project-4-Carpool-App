@@ -7,6 +7,8 @@ import 'package:users_app/widgets/place_prediction_tile.dart';
 
 class SearchPlacesScreen extends StatefulWidget
 {
+  const SearchPlacesScreen({super.key});
+
 
   @override
   _SearchPlacesScreenState createState() => _SearchPlacesScreenState();
@@ -147,11 +149,11 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen>
           ),
 
           //display place predictions result
-          (placesPredictedList.length > 0)
+          (placesPredictedList.isNotEmpty)
               ? Expanded(
             child: ListView.separated(
               itemCount: placesPredictedList.length,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               itemBuilder: (context, index)
               {
                 return PlacePredictionTileDesign(
