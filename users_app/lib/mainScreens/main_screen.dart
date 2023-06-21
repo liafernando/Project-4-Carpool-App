@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   checkIfLocationPermissionAllowed() async {
     _locationPermission = await Geolocator.requestPermission();
 
-    if (_locationPermission == LocationPermission.denied) ;
+    if (_locationPermission == LocationPermission.denied) {}
     {
       _locationPermission = await Geolocator.requestPermission();
     }
@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
     String humanReadableAddress =
         await HelpingMethods.searchAddressForGeographicCoOrdinates(
             userCurrentPosition!, context);
-    print("This is your address = " + humanReadableAddress);
+    print("This is your address = $humanReadableAddress");
   }
 
   @override
@@ -165,11 +165,10 @@ class _MainScreenState extends State<MainScreen> {
                                 Provider.of<AppInfo>(context)
                                             .userPickUpLocation !=
                                         null
-                                    ? (Provider.of<AppInfo>(context)
+                                    ? "${(Provider.of<AppInfo>(context)
                                                 .userPickUpLocation!
                                                 .locationName!)
-                                            .substring(0, 16) +
-                                        "..."
+                                            .substring(0, 16)}..."
                                     : "not getting address",
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 16),
@@ -192,26 +191,26 @@ class _MainScreenState extends State<MainScreen> {
                       ),
 
                       //to
-                      Row(
+                      const Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.add_location_alt_outlined,
                             color: Colors.grey,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 12.0,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "To",
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                               Text(
                                 "user droppff postion",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.grey, fontSize: 16),
                               ),
                             ],
@@ -230,14 +229,14 @@ class _MainScreenState extends State<MainScreen> {
 
                       const SizedBox(height: 16.0),
                       ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            textStyle: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold)),
                         child: const Text(
                           "Request a Ride",
                         ),
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            textStyle: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold)),
                       ),
                     ],
                   ),
