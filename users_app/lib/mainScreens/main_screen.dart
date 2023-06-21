@@ -18,6 +18,7 @@ import 'package:users_app/models/active_nearby_available_drivers.dart';
 import 'package:users_app/widgets/my_drawer.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
 
+import '../main.dart';
 import '../widgets/progress_dialog.dart';
 
 class MainScreen extends StatefulWidget {
@@ -52,6 +53,8 @@ class _MainScreenState extends State<MainScreen> {
   bool openNavigationDrawer = true;
   bool activeNearbyDriverKeysLoaded = false;
   BitmapDescriptor? activeNearbyIcon;
+
+  List<ActiveNearbyAvailableDrivers> onlineNearByAvailableDriversList = [];
 
   blackThemeGoogleMap() {
     newGoogleMapController!.setMapStyle('''
@@ -257,6 +260,31 @@ class _MainScreenState extends State<MainScreen> {
     checkIfLocationPermissionAllowed();
   }
 
+  saveRideRequestInformation() {
+    onlineNearByAvailableDriversList =
+        GeoFireAssistant.activeNearbyAvailableDriversList;
+
+    searchNearestOnlineDrivers();
+  }
+
+  searchNearestOnlineDrivers() async {
+    if (onlineNearByAvailableDriversList.length == 0) {
+      setState(() {
+        polyLineSet.clear();
+        markersSet.clear();
+        circlesSet.clear();
+        pLineCoOrdinatesList.clear();
+      });
+
+      Fluttertoast.showToast(
+          msg: "Search again for ride after some time, Restarting app now");
+      Future.delayed(Duration(milliseconds: 4000), () {
+        MyApp.restartApp(context);
+      });
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     createActiveNearByDriverIconMarker();
@@ -454,7 +482,16 @@ class _MainScreenState extends State<MainScreen> {
                         child: const Text(
                           "Request a Ride",
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (Provider.of<AppInfo>(context, listen: false)
+                                  .userDropOffLocation !=
+                              null) {
+                            saveRideRequestInformation();
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Please select destination location");
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             primary: Colors.green,
                             textStyle: const TextStyle(
