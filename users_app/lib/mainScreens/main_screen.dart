@@ -285,6 +285,8 @@ class _MainScreenState extends State<MainScreen> {
       return;
     }
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
+
+    Navigator.push(context, MaterialPageRoute(bulider: (c)=> ));
   }
 
   retrieveOnlineDriversInformation(List onlneNearestDriversList) async {
@@ -296,7 +298,6 @@ class _MainScreenState extends State<MainScreen> {
           .then((dataSnapshot) {
         var driverKeyInfo = dataSnapshot.snapshot.value;
         dList.add(driverKeyInfo);
-        print("driver key Information = " + dList.toString());
       });
     }
   }
