@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
@@ -282,6 +283,21 @@ class _MainScreenState extends State<MainScreen> {
         MyApp.restartApp(context);
       });
       return;
+    }
+    await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
+  }
+
+  retrieveOnlineDriversInformation(List onlneNearestDriversList) async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref().child("drivers");
+    for (int i = 0; i < onlineNearByAvailableDriversList.length; i++) {
+      await ref
+          .child(onlneNearestDriversList[i].driverId.toString())
+          .once()
+          .then((dataSnapshot) {
+        var driverKeyInfo = dataSnapshot.snapshot.value;
+        dList.add(driverKeyInfo);
+        print("driver key Information = " + dList.toString());
+      });
     }
   }
 
