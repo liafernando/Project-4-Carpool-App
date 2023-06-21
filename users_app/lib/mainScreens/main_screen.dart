@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:users_app/helping/helping_methods.dart';
 import 'package:users_app/global/global.dart';
 import 'package:users_app/widgets/my_drawer.dart';
+
+import '../infoHandler/app_info.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -56,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     String humanReadableAddress =
         await HelpingMethods.searchAddressForGeographicCoOrdinates(
-            userCurrentPosition!);
+            userCurrentPosition!, context);
     print("This is your address = " + humanReadableAddress);
   }
 
@@ -159,7 +162,15 @@ class _MainScreenState extends State<MainScreen> {
                                     TextStyle(color: Colors.grey, fontSize: 12),
                               ),
                               Text(
-                                "Current position",
+                                Provider.of<AppInfo>(context)
+                                            .userPickUpLocation !=
+                                        null
+                                    ? (Provider.of<AppInfo>(context)
+                                                .userPickUpLocation!
+                                                .locationName!)
+                                            .substring(0, 16) +
+                                        "..."
+                                    : "not getting address",
                                 style: const TextStyle(
                                     color: Colors.grey, fontSize: 16),
                               ),
