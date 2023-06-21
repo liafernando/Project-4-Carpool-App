@@ -364,7 +364,14 @@ class _MainScreenState extends State<MainScreen>
                         onTap: ()
                         {
                           //directs to search places screen
-                          Navigator.push(context, MaterialPageRoute(builder: (c)=> SearchPlacesScreen()));
+                          var responseFromSearchScreen = Navigator.push(context, MaterialPageRoute(builder: (c)=> SearchPlacesScreen()));
+
+                          if(responseFromSearchScreen == "obtainedDropoff")
+                          {
+                            //draw routes - draw polyline
+                          }
+
+
                         },
                         child: Row(
                           children: [
@@ -378,7 +385,9 @@ class _MainScreenState extends State<MainScreen>
                                   style: TextStyle(color: Colors.grey, fontSize: 12),
                                 ),
                                 Text(
-                                  "Where to go?",
+                                  Provider.of<AppInfo>(context).userDropOffLocation != null
+                                      ? Provider.of<AppInfo>(context).userDropOffLocation!.locationName!
+                                      : "Where to go?",
                                   style: const TextStyle(color: Colors.grey, fontSize: 14),
                                 ),
                               ],
