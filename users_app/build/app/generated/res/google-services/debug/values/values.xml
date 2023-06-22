@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">629383457888-or3o5h5k0bhmqfu5tesr6msr3ujlimhi.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://nhlcarpool-default-rtdb.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">629383457888</string>
+    <string name="google_api_key" translatable="false">AIzaSyDw0dQ3myz0xWXDSotzSZliu1lDq6y2-zQ</string>
+    <string name="google_app_id" translatable="false">1:629383457888:android:2f6faefacb0e2ecfa06705</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDw0dQ3myz0xWXDSotzSZliu1lDq6y2-zQ</string>
+    <string name="google_storage_bucket" translatable="false">nhlcarpool.appspot.com</string>
+    <string name="project_id" translatable="false">nhlcarpool</string>
+</resources>
