@@ -339,13 +339,40 @@ class _MainScreenState extends State<MainScreen> {
         if (snap.snapshot.value != null) {
           //send notification to the specific driver
           sendNotificationToDriverNow(chosenDriverId!);
+
+          //Response from a driver
+
+          //cancel request
+          FirebaseDatabase.instance.ref()
+              .child("drivers")
+              .child(chosenDriverId!)
+              .child("newRideStatus")
+              .onValue.listen((eventSnapshot)
+          {
+            //driver has cancel the rideRequest, Push Notification
+            // (newRideStatus = idle)
+            if(eventSnapshot.snapshot.value == "idle")
+            {
+              Fluttertoast.showToast(msg: "The driver has cancelled your request. Please choose another driver.");
+
+              Future.delayed(const Duration(milliseconds: 3000), ()
+              {
+                Fluttertoast.showToast(msg: "Please Restart App Now.");
+
+                SystemNavigator.pop();
+              });
+            }
+
+          });
         }
-        else {
+        else
+        {
           Fluttertoast.showToast(msg: "This driver do not exist. Try again.");
         }
       });
     }
   }
+
 
 
   sendNotificationToDriverNow(String chosenDriverId)
