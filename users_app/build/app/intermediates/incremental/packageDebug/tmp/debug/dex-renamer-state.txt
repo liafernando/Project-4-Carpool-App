@@ -1,0 +1,4 @@
+#Thu Jun 22 09:38:31 CEST 2023
+base.0=C\:\\Users\\kaise\\Documents\\GitHub\\Project-4-Carpool-App\\users_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
