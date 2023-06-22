@@ -303,8 +303,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   searchNearestOnlineDrivers() async {
-    if (onlineNearByAvailableDriversList.length == 0)
-    {
+    if (onlineNearByAvailableDriversList.length == 0) {
       referenceRideRequest!.remove();
 
       setState(() {
@@ -316,8 +315,7 @@ class _MainScreenState extends State<MainScreen> {
 
       Fluttertoast.showToast(
           msg: "Search again for ride after some time, Restarting app now");
-      Future.delayed(Duration(milliseconds: 4000), ()
-      {
+      Future.delayed(Duration(milliseconds: 4000), () {
         SystemNavigator.pop();
       });
 
@@ -328,7 +326,39 @@ class _MainScreenState extends State<MainScreen> {
     //the active drivers available
     await retrieveOnlineDriversInformation(onlineNearByAvailableDriversList);
 
-    Navigator.push(context, MaterialPageRoute(builder: (c) => SelectNearestActiveDriversScreen(referenceRideRequest: referenceRideRequest)));
+    var response = await Navigator.push(context, MaterialPageRoute(builder: (c) =>
+        SelectNearestActiveDriversScreen(
+            referenceRideRequest: referenceRideRequest)));
+
+    if (response == "driverChoosed") {
+      FirebaseDatabase.instance.ref()
+          .child("drivers")
+          .child(chosenDriverId!)
+          .once()
+          .then((snap) {
+        if (snap.snapshot.value != null) {
+          //send notification to the specific driver
+          sendNotificationToDriverNow(chosenDriverId!);
+        }
+        else {
+          Fluttertoast.showToast(msg: "This driver do not exist. Try again.");
+        }
+      });
+    }
+  }
+
+
+  sendNotificationToDriverNow(String chosenDriverId)
+  {
+    //assigning rideRequestId to newRideStatus in
+    // Drivers Parent node for that specific choosen driver
+    FirebaseDatabase.instance.ref()
+        .child("drivers")
+        .child(chosenDriverId!)
+        .child("newRideStatus")
+        .set(referenceRideRequest!.key);
+
+    //automate the push notification
   }
 
   retrieveOnlineDriversInformation(List onlneNearestDriversList) async {
