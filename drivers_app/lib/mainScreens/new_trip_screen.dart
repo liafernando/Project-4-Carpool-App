@@ -97,7 +97,7 @@ class _NewTripScreenState extends State<NewTripScreen> {
 
     setState(() {
       Polyline polyline = Polyline(
-        color: Colors.purpleAccent,
+        color: Colors.greenAccent,
         polylineId: const PolylineId("PolylineID"),
         jointType: JointType.round,
         points: polyLinePositionCoordinates,
