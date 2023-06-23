@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_star_rating_nsafe/smooth_star_rating.dart';
-import 'package:users_app/assistants/assistant_methods.dart';
-import 'package:users_app/global/global.dart';
+
+import '../global/global.dart';
 
 class SelectNearestActiveDriversScreen extends StatefulWidget {
-  DatabaseReference? referenceRideRequest;
+  final DatabaseReference? referenceRideRequest;
 
   SelectNearestActiveDriversScreen({this.referenceRideRequest});
 
@@ -20,42 +20,12 @@ class _SelectNearestActiveDriversScreenState
     extends State<SelectNearestActiveDriversScreen> {
   String fareAmount = "";
 
-  getFareAmountAccordingToVehicleType(int index) {
-    if (tripDirectionDetailsInfo != null) {
-      if (dList[index]["car_details"]["type"].toString() == "car") {
-        fareAmount =
-            (AssistantMethods.calculateFareAmountFromOriginToDestination(
-                        tripDirectionDetailsInfo!) /
-                    2)
-                .toStringAsFixed(1);
-      }
-      if (dList[index]["car_details"]["type"].toString() ==
-          "scooter") //means executive type of car - more comfortable pro level
-      {
-        fareAmount =
-            (AssistantMethods.calculateFareAmountFromOriginToDestination(
-                        tripDirectionDetailsInfo!) *
-                    2)
-                .toStringAsFixed(1);
-      }
-      if (dList[index]["car_details"]["type"].toString() ==
-          "bike") // non - executive car - comfortable
-      {
-        fareAmount =
-            (AssistantMethods.calculateFareAmountFromOriginToDestination(
-                    tripDirectionDetailsInfo!))
-                .toString();
-      }
-    }
-    return fareAmount;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white54,
         title: const Text(
           "Nearest Online Drivers",
           style: TextStyle(
@@ -65,7 +35,7 @@ class _SelectNearestActiveDriversScreenState
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.white),
           onPressed: () {
-            //delete/remove the ride request from database
+            // delete/remove the ride request from the database
             widget.referenceRideRequest!.remove();
             Fluttertoast.showToast(msg: "you have cancelled the ride request.");
 
@@ -116,9 +86,7 @@ class _SelectNearestActiveDriversScreenState
                       ),
                     ),
                     SmoothStarRating(
-                      rating: dList[index]["ratings"] == null
-                          ? 0.0
-                          : double.parse(dList[index]["ratings"]),
+                      rating: 3.5,
                       color: Colors.black,
                       borderColor: Colors.black,
                       allowHalfRating: true,
@@ -131,8 +99,8 @@ class _SelectNearestActiveDriversScreenState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "\€ " + getFareAmountAccordingToVehicleType(index),
-                      style: const TextStyle(
+                      "Fare", // Provide appropriate fare value here
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

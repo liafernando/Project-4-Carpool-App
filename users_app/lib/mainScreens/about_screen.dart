@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AboutScreen extends StatefulWidget {
+
+class AboutScreen extends StatefulWidget
+{
   @override
   State<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _AboutScreenState extends State<AboutScreen> {
+
+
+
+class _AboutScreenState extends State<AboutScreen>
+{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: ListView(
+
         children: [
+
           //image
           Container(
             height: 230,
@@ -26,6 +35,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
           Column(
             children: [
+
+
               const Text(
                 "NHL Stenden Carpool App",
                 style: TextStyle(
@@ -55,8 +66,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
               const Text(
                 "NHL Stenden Carpool is a rider app which enables student to get "
-                "a ride from drivers to get to school safely and easily."
-                "We hope it does the best for all the students.",
+                    "a ride from drivers to get to school safely and easily."
+                    "We hope it does the best for all the students.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -70,7 +81,8 @@ class _AboutScreenState extends State<AboutScreen> {
 
               //close
               ElevatedButton(
-                onPressed: () {
+                onPressed: ()
+                {
                   SystemNavigator.pop();
                 },
                 style: ElevatedButton.styleFrom(
@@ -81,9 +93,12 @@ class _AboutScreenState extends State<AboutScreen> {
                   style: TextStyle(color: Colors.white70),
                 ),
               ),
+
             ],
           ),
+
         ],
+
       ),
     );
   }

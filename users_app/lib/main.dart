@@ -2,8 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/infoHandler/app_info.dart';
+import 'package:users_app/splashScreen/splash_screen.dart';
 
-import 'assistants/splashScreen/splash_screen.dart';
 
 void main() async
 {

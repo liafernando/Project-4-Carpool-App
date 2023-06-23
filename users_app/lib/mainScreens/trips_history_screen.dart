@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:users_app/infoHandler/app_info.dart';
-import 'package:users_app/widgets/history_design_ui.dart';
-
 
 class TripsHistoryScreen extends StatefulWidget
 {
@@ -24,7 +22,7 @@ class _TripsHistoryScreenState extends State<TripsHistoryScreen>
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: const Text(
-          "Trips History"
+            "Trips History"
         ),
         leading: IconButton(
           icon: const Icon(Icons.close),

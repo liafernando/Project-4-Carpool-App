@@ -18,7 +18,6 @@ import 'package:users_app/mainScreens/search_places_screen.dart';
 import 'package:users_app/mainScreens/select_nearest_active_driver_screen.dart';
 import 'package:users_app/models/active_nearby_available_drivers.dart';
 import 'package:users_app/widgets/my_drawer.dart';
-import 'package:users_app/widgets/pay_fare_amount_dialog.dart';
 import 'package:users_app/widgets/progress_dialog.dart';
 
 class MainScreen extends StatefulWidget {
@@ -52,6 +51,9 @@ class _MainScreenState extends State<MainScreen> {
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
 
+  String userName = "your Name";
+  String userEmail = "your Email";
+
   bool openNavigationDrawer = true;
 
   bool activeNearbyDriverKeysLoaded = false;
@@ -67,7 +69,8 @@ class _MainScreenState extends State<MainScreen> {
   bool requestPositionInfo = true;
 
   blackThemeGoogleMap() {
-    newGoogleMapController!.setMapStyle('''
+    newGoogleMapController!.setMapStyle(
+        '''
                     [
                       {
                         "elementType": "geometry",
@@ -259,9 +262,12 @@ class _MainScreenState extends State<MainScreen> {
             userCurrentPosition!, context);
     print("this is your address = " + humanReadableAddress);
 
+    userName = userModelCurrentInfo!.name!;
+    userEmail = userModelCurrentInfo!.email!;
+
     initializeGeoFireListener();
 
-    AssistantMethods.readTripsKeysForOnlineUser(context);
+
   }
 
   @override
@@ -620,11 +626,11 @@ class _MainScreenState extends State<MainScreen> {
         width: 265,
         child: Theme(
           data: Theme.of(context).copyWith(
-            canvasColor: Colors.blue,
+            canvasColor: Colors.black,
           ),
           child: MyDrawer(
-            name: userModelCurrentInfo!.name,
-            email: userModelCurrentInfo!.email,
+            name: userName,
+            email: userEmail,
           ),
         ),
       ),
@@ -669,7 +675,7 @@ class _MainScreenState extends State<MainScreen> {
                 }
               },
               child: CircleAvatar(
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.blue,
                 child: Icon(
                   openNavigationDrawer ? Icons.menu : Icons.close,
                   color: Colors.black54,
@@ -1043,7 +1049,7 @@ class _MainScreenState extends State<MainScreen> {
 
     setState(() {
       Polyline polyline = Polyline(
-        color: Colors.purpleAccent,
+        color: Colors.blueAccent,
         polylineId: const PolylineId("PolylineID"),
         jointType: JointType.round,
         points: pLineCoOrdinatesList,
